@@ -12,6 +12,7 @@ from bs4 import BeautifulSoup
 import requests
 import json
 from selenium.webdriver.common.by import By
+from selenium.webdriver.common.action_chains import ActionChains
 
 def load_saved(path):
     file = open(path, 'r')
@@ -80,6 +81,11 @@ if __name__ == '__main__':
     browser.get("https://pubs.acs.org/")
     time.sleep(2.1)
 
+    login_button = browser.find_element("xpath",'.//*[@class="close paringAffClose"]')
+    if login_button != None:
+        login_button.click()
+
+    time.sleep(1.1)
     # find the publication button and click it
     public_button = browser.find_element("xpath", './/*[@data-widget-id="6808faec-02bf-4a81-85d3-95e1fe96c4a4"]/div[1]/div[1]/div[2]/div[3]/a[1]')
     public_button.click()
@@ -99,8 +105,30 @@ if __name__ == '__main__':
         issues = browser.find_elements("xpath",'.//*[@class="loi__cover_image"]')
         idx = 0
         while idx < len(issues):
+            # if (idx+1) % 3 == 0:
+            #     browser.execute_script("window.scrollTo(0, 1000)")
+
             issues = browser.find_elements("xpath", './/*[@class="loi__cover_image"]')
             issue = issues[idx]
+            # issue.location_once_scrolled_into_view
+            #
+            # issues = browser.find_elements("xpath", './/*[@class="loi__cover_image"]')
+            # issue = issues[idx]
+
+            actions = ActionChains(browser)
+            actions.move_to_element(issue, 5, 5)
+            actions.perform()
+
+            time.sleep(0.7)
+            #handle continue
+            continue_button = browser.find_element("xpath", './/*[@id="gdpr-con-btn"]')
+            if continue_button != None:
+                print(continue_button)
+                browser.execute_script("arguments[0].click();", continue_button)
+                # continue_button.click()
+
+
+            time.sleep(0.5)
             issue.click()
             issue_item = []
             page_src = browser.page_source
