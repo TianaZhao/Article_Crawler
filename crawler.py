@@ -14,6 +14,10 @@ import json
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.action_chains import ActionChains
 
+def write_into_file(content, path):
+    # todo: write content to file with path
+    pass
+
 def tranverse_issues():
     try:
         issues = browser.find_elements("xpath",'.//*[@class="loi__cover_image"]')
@@ -46,7 +50,6 @@ def tranverse_issues():
             #     print(continue_button)
             #     browser.execute_script("arguments[0].click();", continue_button)
                 # continue_button.click()
-
 
             # parse data from html directly.
             # issue_item = []
@@ -111,109 +114,5 @@ if __name__ == '__main__':
 
     time.sleep(1.5)
     tranverse_issues()
-
-
-
-
-
-
-
-
-    # old code from previous intern project
-    # # login
-    # login_button = browser.find_element_by_xpath('//*[@id="J_SiteNavLogin"]/div[1]/div[1]/a[1]')
-    # login_button.click()
-    # time.sleep(15)
-    #
-    # img_dir = "/Users/wantianzhao/Desktop"
-    #
-    # saved = load_saved('result_new.txt')
-    # saved = load_saved('result_new.txt')
-    #
-    # ret = []
-    # for root, dirs, files in os.walk(img_dir):
-    #     for file in files:
-    #         try:
-    #             if file == ".DS_Store" or file in saved:
-    #                 continue
-    #             camera_button = browser.find_element_by_xpath('//*[@id="J_UploaderPanel"]/div/a/div[2]')
-    #             camera_button.click()
-    #             img_path = os.path.join(img_dir, file)
-    #             ret_info = []
-    #             ret_info = upload_img(browser, img_path)
-    #             ret.append(ret_info)
-    #             print(ret_info)
-    #             if ret_info == []:
-    #                 print("ret_info is None")
-    #                 continue
-    #             time.sleep(1)
-    #             with open('result_new.txt', "a") as f:
-    #                 data_json = json.dumps(ret_info, ensure_ascii= False) + "\n"
-    #                 f.write(data_json)
-    #             time.sleep(3)
-    #         except Exception as e :
-    #             print (e)
-    #             browser.refresh()
-    #             time.sleep(2)
-    #             continue
-    #
-    #
-
-# def load_saved(path):
-#     file = open(path, 'r')
-#     saved = set()
-#     for line in file.readlines():
-#         if line == '\n':
-#             continue
-#         dic = json.loads(line)
-#         curr = dic[0]["ori_name"]
-#         saved.add(curr)
-#     file.close()
-#     return saved
-#
-#
-# def upload_img(browser, img_path):
-#     try:
-#         ret_info=[]
-#         time.sleep(1)
-#         pyautogui.FAILSAFE = False
-#         # upload the picture
-#         pyautogui.write(img_path, interval=0.2)
-#         time.sleep(1)
-#         pyautogui.press('return', interval=0.5)
-#         time.sleep(2)
-#         pyautogui.press('return', interval=0.5)
-#         time.sleep(4)
-#
-#         page_src = browser.page_source
-#         soup = BeautifulSoup(page_src, "html.parser")
-#         if soup.find_all(class_="pic") is None:
-#             print("is none")
-#             ret_info.append(img_path)
-#             return ret_info
-#
-#         item_list = list(soup.find_all(class_="pic"))[0:4]
-#         folder_name = img_path.split("\\")
-#         folder_name = folder_name[len(folder_name) - 1]
-#         ori_name_dic = dict()
-#         ori_name_dic["ori_name"] = folder_name
-#         ret_info.append(ori_name_dic)
-#
-#         for item in item_list:
-#             item_info = item.contents[1].contents[1].attrs
-#             item_name = item_info["alt"]
-#             item_name = item_name.replace("/", "每")
-#             item_name = item_name.replace("*", "个")
-#             item_src = item_info["src"]
-#             item_ret = dict()
-#             item_ret["name"] = item_name
-#             item_url = "http:" + item_src
-#             item_ret["url"] = item_url
-#             ret_info.append(item_ret)
-#         return ret_info
-#
-#     except Exception as e:
-#         print(e)
-#         return ret_info
 
 
